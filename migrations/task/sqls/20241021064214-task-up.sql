@@ -14,7 +14,7 @@
 --     4. 用戶名稱為`好野人`，Email 為`richman@hexschooltest.io`，Role為`USER`
 --     5. 用戶名稱為`Q太郎`，Email 為`starplatinum@hexschooltest.io`，Role為`USER`
 --     6. 用戶名稱為 透明人，Email 為 opacity0@hexschooltest.io，Role 為 USER
-INSERT INTO "USER" (name, email, role) VALUES
+insert into "USER" (name, email, role) values 
 ('李燕容', 'lee2000@hexschooltest.io', 'USER'),
 ('王小明', 'wXlTq@hexschooltest.io', 'USER'),
 ('肌肉棒子', 'muscle@hexschooltest.io', 'USER'),
@@ -24,15 +24,15 @@ INSERT INTO "USER" (name, email, role) VALUES
 -- 1-2 修改：用 Email 找到 李燕容、肌肉棒子、Q太郎，如果他的 Role 為 USER 將他的 Role 改為 COACH
 UPDATE "USER"
 SET ROLE = 'COACH'
-WHERE email = 'lee2000@hexschooltest.io'
+WHERE email = 'lee2000@hexschooltest.io';
 
 UPDATE "USER"
 SET ROLE = 'COACH'
-WHERE email = 'muscle@hexschooltest.io'
+WHERE email = 'muscle@hexschooltest.io';
 
 UPDATE "USER"
 SET ROLE = 'COACH'
-WHERE email = 'starplatinum@hexschooltest.io'
+WHERE email = 'starplatinum@hexschooltest.io';
 -- 1-3 刪除：刪除USER 資料表中，用 Email 找到透明人，並刪除該筆資料
 DELETE FROM "USER"
 WHERE email = 'opcatiy0@hexschooltest.io';
@@ -59,20 +59,18 @@ INSERT INTO "CREDIT_PACKAGE" (name, credit_amount, price) VALUES
 ('21 堂組合包方案', 21, 4800);
 -- 2-2. 新增：在 `CREDIT_PURCHASE` 資料表，新增三筆資料：（請使用 name 欄位做子查詢）
     -- 1. `王小明` 購買 `14 堂組合包方案`
-    -- 2. `王小明` 購買 `21 堂組合包方案`
-    -- 3. `好野人` 購買 `14 堂組合包方案`
 INSERT INTO "CREDIT_PURCHASE" (user_id, credit_package_id, purchased_credits, price_paid) VALUES
 ((SELECT ID FROM "USER" WHERE email = 'wXlTq@hexschooltest.io'),
  (SELECT ID FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案'),
  (SELECT credit_amount FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案'),
  (SELECT price FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案'));
-
+    -- 2. `王小明` 購買 `21 堂組合包方案`
  INSERT INTO "CREDIT_PURCHASE" (user_id, credit_package_id, purchased_credits, price_paid) VALUES
 ((SELECT ID FROM "USER" WHERE email = 'wXlTq@hexschooltest.io'),
  (SELECT ID FROM "CREDIT_PACKAGE" WHERE name = '21 堂組合包方案'),
  (SELECT credit_amount FROM "CREDIT_PACKAGE" WHERE name = '21 堂組合包方案'),
  (SELECT price FROM "CREDIT_PACKAGE" WHERE name = '21 堂組合包方案'));
-
+    -- 3. `好野人` 購買 `14 堂組合包方案`
 INSERT INTO "CREDIT_PURCHASE" (user_id, credit_package_id, purchased_credits, price_paid) VALUES
 ((SELECT ID FROM "USER" WHERE email = 'richman@hexschooltest.io'),
  (SELECT ID FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案'),
@@ -87,20 +85,16 @@ INSERT INTO "CREDIT_PURCHASE" (user_id, credit_package_id, purchased_credits, pr
 -- 3. 教練資料 ，資料表為 COACH ,SKILL,COACH_LINK_SKILL
 -- 3-1 新增：在`COACH`資料表新增三筆教練資料，資料需求如下：
     -- 1. 將用戶`李燕容`新增為教練，並且年資設定為2年（提示：使用`李燕容`的email ，取得 `李燕容` 的 `id` ）
-    -- 2. 將用戶`肌肉棒子`新增為教練，並且年資設定為2年
-    -- 3. 將用戶`Q太郎`新增為教練，並且年資設定為2年
 INSERT INTO "COACH" (user_id, experience_years) VALUES
 ((SELECT ID FROM "USER" WHERE email = 'lee2000@hexschooltest.io'),2);
-
+    -- 2. 將用戶`肌肉棒子`新增為教練，並且年資設定為2年
 INSERT INTO "COACH" (user_id, experience_years) VALUES
 ((SELECT ID FROM "USER" WHERE email = 'muscle@hexschooltest.io'),2);
-
+    -- 3. 將用戶`Q太郎`新增為教練，並且年資設定為2年
 INSERT INTO "COACH" (user_id, experience_years) VALUES
 ((SELECT ID FROM "USER" WHERE email = 'starplatinum@hexschooltest.io'),2);
 -- 3-2. 新增：承1，為三名教練新增專長資料至 `COACH_LINK_SKILL` ，資料需求如下：
     -- 1. 所有教練都有 `重訓` 專長
-    -- 2. 教練`肌肉棒子` 需要有 `瑜伽` 專長
-    -- 3. 教練`Q太郎` 需要有 `有氧運動` 與 `復健訓練` 專長
 INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES
 ((SELECT ID FROM "COACH" WHERE user_id = (SELECT ID FROM "USER" WHERE email = 'lee2000@hexschooltest.io')),
 (SELECT ID FROM "SKILL" WHERE name = '重訓')); 
@@ -112,11 +106,11 @@ INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES
 INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES
 ((SELECT ID FROM "COACH" WHERE user_id = (SELECT ID FROM "USER" WHERE email = 'starplatinum@hexschooltest.io')),
 (SELECT ID FROM "SKILL" WHERE name = '重訓')); 
-
-INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES
+    -- 2. 教練`肌肉棒子` 需要有 `瑜伽` 專長
+ INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES
 ((SELECT ID FROM "COACH" WHERE user_id = (SELECT ID FROM "USER" WHERE email = 'muscle@hexschooltest.io')),
 (SELECT ID FROM "SKILL" WHERE name = '瑜伽')); 
-
+    -- 3. 教練`Q太郎` 需要有 `有氧運動` 與 `復健訓練` 專長
 INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES
 ((SELECT ID FROM "COACH" WHERE user_id = (SELECT ID FROM "USER" WHERE email = 'starplatinum@hexschooltest.io')),
 (SELECT ID FROM "SKILL" WHERE name = '有氧運動')); 
@@ -126,7 +120,6 @@ INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES
 (SELECT ID FROM "SKILL" WHERE name = '復健訓練')); 
 -- 3-3 修改：更新教練的經驗年數，資料需求如下：
     -- 1. 教練`肌肉棒子` 的經驗年數為3年
-    -- 2. 教練`Q太郎` 的經驗年數為5年
 UPDATE "COACH"
 SET experience_years = 3
 WHERE user_id = (
@@ -134,7 +127,7 @@ SELECT ID
 FROM "USER"
 WHERE email = 'muscle@hexschooltest.io'
 );
-
+    -- 2. 教練`Q太郎` 的經驗年數為5年
 UPDATE "COACH"
 SET experience_years = 5
 WHERE user_id = (
@@ -297,7 +290,7 @@ INNER JOIN "CREDIT_PACKAGE" ON "CREDIT_PACKAGE".id = "CREDIT_PURCHASE".credit_pa
 WHERE "CREDIT_PURCHASE".created_at >= '2024-11-01 00:00:00' AND "CREDIT_PURCHASE".created_at <= '2024-11-30 23:59:59'
 GROUP BY "CREDIT_PACKAGE".name;
 
---但我的月份已經是12月，附上計算12月份組合包銷售數量
+-- 但我的月份已經是12月，附上計算12月份組合包銷售數量
 SELECT "CREDIT_PACKAGE".name AS "組合包方案名稱",
 COUNT(*) AS "銷售數量"
 FROM "CREDIT_PURCHASE"
@@ -312,7 +305,7 @@ FROM "CREDIT_PURCHASE"
 WHERE "CREDIT_PURCHASE".purchase_at >= '2024-11-01 00:00:00' 
 AND "CREDIT_PURCHASE".purchase_at <= '2024-11-30 23:59:59';
 
---附上12月份總營收
+-- 附上12月份總營收
 SELECT SUM(price_paid) AS "總營收"
 FROM "CREDIT_PURCHASE"
 WHERE "CREDIT_PURCHASE".purchase_at >= '2024-12-01 00:00:00' 
@@ -325,7 +318,7 @@ WHERE "COURSE_BOOKING".created_at >= '2024-11-01 00:00:00'
 AND "COURSE_BOOKING".created_at <= '2024-11-30 23:59:59' 
 AND "COURSE_BOOKING".status != '課程已取消';
 
---附上12月份
+-- 附上12月份
 SELECT COUNT(Distinct("COURSE_BOOKING".user_id)) AS "預約會員人數"
 FROM "COURSE_BOOKING"
 WHERE "COURSE_BOOKING".created_at >= '2024-12-01 00:00:00' 
